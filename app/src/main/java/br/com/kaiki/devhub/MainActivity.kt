@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DevHubTheme {
-                Text("Ola mundo")
+                Text("Ola mundo2")
             }
         }
     }
