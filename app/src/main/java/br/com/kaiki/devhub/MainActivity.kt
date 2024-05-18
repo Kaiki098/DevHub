@@ -78,7 +78,7 @@ fun ProfileScreen() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.cat_selfie),
-            contentDescription = "A zoom in cat photo",
+            contentDescription = "profile pic, a zoom in cat",
             modifier = Modifier
                 .height(imageHeight)
                 .clip(shape = RoundedCornerShape(100))
