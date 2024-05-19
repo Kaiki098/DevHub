@@ -3,7 +3,6 @@ package br.com.kaiki.devhub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kaiki.devhub.ui.theme.DevHubTheme
+import coil.compose.AsyncImage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,12 +76,13 @@ fun ProfileScreen() {
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.cat_selfie),
-            contentDescription = "profile pic, a zoom in cat",
+        AsyncImage(
+            model = "https://avatars.githubusercontent.com/u/127666620?v=4",
+            contentDescription = "Profile picture",
             modifier = Modifier
                 .height(imageHeight)
-                .clip(shape = RoundedCornerShape(100))
+                .clip(shape = RoundedCornerShape(100)),
+            placeholder = painterResource(id = R.drawable.cat_selfie)
         )
 
         Column (
