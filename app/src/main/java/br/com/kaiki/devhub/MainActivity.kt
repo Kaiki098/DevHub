@@ -1,6 +1,7 @@
 package br.com.kaiki.devhub
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -26,12 +27,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
+import br.com.kaiki.devhub.network.GitHubProfileWeb
+import br.com.kaiki.devhub.network.RetrofitInit
 import br.com.kaiki.devhub.ui.theme.DevHubTheme
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val retrofit = RetrofitInit()
+        var response: GitHubProfileWeb
+        lifecycleScope.launch {
+            response = retrofit.gitHubService.getUser("Kaiki098")
+            Log.d("API", "$response")
+        }
+
+
+
         setContent {
             DevHubTheme {
                 Surface(
@@ -94,6 +110,7 @@ fun ProfileScreen() {
         }
         Text(text = "Computer Science student at IFSULDEMINAS - PASSOS", textAlign = TextAlign.Center)
     }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)
