@@ -54,7 +54,7 @@ fun ProfileScreen() {
     val imageHeight = remember {
         boxHeight
     }
-//teste
+
     Column {
         Box(
             modifier = Modifier
