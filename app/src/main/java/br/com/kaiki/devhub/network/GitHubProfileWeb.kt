@@ -6,6 +6,6 @@ data class GitHubProfileWeb(
     val name: String,
     val login: String,
     @SerializedName("avatar_url")
-    val avatarUrl: String = "Não achou",
+    val avatarUrl: String,
     val bio: String
 )
