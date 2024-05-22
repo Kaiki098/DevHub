@@ -1,14 +1,14 @@
-package br.com.kaiki.devhub.network
+package br.com.kaiki.devhub.network.model
 
 import br.com.kaiki.devhub.ui.screen.ProfileUiState
 import com.google.gson.annotations.SerializedName
 
 data class GitHubProfileWeb(
-    val name: String?,
-    val login: String?,
+    val name: String? = null,
+    val login: String? = null,
     @SerializedName("avatar_url")
-    val avatarUrl: String?,
-    val bio: String?
+    val avatarUrl: String? = null,
+    val bio: String? = null,
 )
 
 fun GitHubProfileWeb.toProfileUiState(): ProfileUiState {
@@ -16,6 +16,6 @@ fun GitHubProfileWeb.toProfileUiState(): ProfileUiState {
         user = login ?: "Nome de usuário não disponível",
         image = avatarUrl,
         name = name ?: "Nome não disponível",
-        bio = bio ?: "Bio não disponível"
+        bio = bio ?: "Bio não disponível",
     )
 }

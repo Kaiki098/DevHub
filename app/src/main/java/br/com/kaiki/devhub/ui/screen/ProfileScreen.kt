@@ -3,14 +3,18 @@ package br.com.kaiki.devhub.ui.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,41 +22,70 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kaiki.devhub.R
-import br.com.kaiki.devhub.network.GitHubRepository
-import br.com.kaiki.devhub.network.toProfileUiState
+import br.com.kaiki.devhub.model.GitHubRepository
+import br.com.kaiki.devhub.network.GitHubWebClient
+import br.com.kaiki.devhub.ui.components.RepositoryItem
 import coil.compose.AsyncImage
 
 
 @Composable
 fun ProfileScreen(
     user: String,
-    repository: GitHubRepository = GitHubRepository()
+    webClient: GitHubWebClient = GitHubWebClient()
 ) {
-    val userFounded by repository
-        .findProfileBy(user = user)
-        .collectAsState(initial = null)
+    val uiState = webClient.uiState
+    LaunchedEffect(null) {
+        webClient.findProfileBy(user)
+    }
+    Profile(uiState)
 
-    userFounded?.let { userProfile ->
-        Profile(userProfile.toProfileUiState())
+//    val userFounded by repository
+//        .findProfileBy(user = user)
+//        .collectAsState(initial = null)
+//
+//    userFounded?.let { userProfile ->
+//        Profile(userProfile.toProfileUiState())
+//    }
+}
+
+@Composable
+fun Profile(uiState: ProfileUiState) {
+    LazyColumn {
+        item { 
+            ProfileHeader(state = uiState)
+        }
+        item { 
+            if (uiState.repositories.isNotEmpty()) {
+                Text(
+                    text = "Repositórios", Modifier.padding(8.dp),
+                    fontSize = 24.sp
+                )
+            }
+        }
+        items (uiState.repositories) {
+            repo ->
+            RepositoryItem(repo = repo)
+        }
     }
 }
 
 @Composable
-fun Profile(state: ProfileUiState) {
-    val boxHeight = remember {
-        150.dp
-    }
+fun ProfileHeader(state: ProfileUiState) {
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val boxHeight = remember {
+            150.dp
+        }
 
-    val imageHeight = remember {
-        boxHeight
-    }
+        val imageHeight = remember {
+            boxHeight
+        }
 
-    Column {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -64,51 +97,65 @@ fun Profile(state: ProfileUiState) {
                     )
                 )
                 .height(boxHeight)
-        )
-    }
-
-    Column(
-        modifier = Modifier
-            .padding(top = boxHeight / 2)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        AsyncImage(
-            model = state.image,
-            contentDescription = "Profile picture",
-            modifier = Modifier
-                .height(imageHeight)
-                .clip(shape = RoundedCornerShape(100)),
-            placeholder = painterResource(id = R.drawable.cat_selfie)
-        )
-
+        ) {
+            AsyncImage(
+                model = state.image,
+                contentDescription = "Profile picture",
+                modifier = Modifier
+                    .size(imageHeight)
+                    .offset(y = imageHeight / 2)
+                    .clip(shape = RoundedCornerShape(100))
+                    .align(Alignment.BottomCenter),
+                placeholder = painterResource(id = R.drawable.blank_profilepic)
+            )
+        }
+        Spacer(modifier = Modifier.height(imageHeight / 2))
         Column(
-            modifier = Modifier.padding(vertical = 10.dp),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+            ,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = state.name,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp
+                fontSize = 32.sp
             )
             Text(
                 text = state.user,
-                fontWeight = FontWeight.ExtraBold
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
             )
         }
         Text(
             text = state.bio,
-            textAlign = TextAlign.Center
+            modifier = Modifier
+                .padding(
+                    start = 8.dp,
+                    bottom = 8.dp,
+                    end = 8.dp
+                )
         )
+
     }
+
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+data class ProfileUiState(
+    val name: String = "",
+    val user: String = "",
+    val image: String? = "",
+    val bio: String = "",
+    val repositories: List<GitHubRepository> = emptyList()
+)
+
+
+@Preview(showBackground = true)
 @Composable
 fun ProfilePreview() {
     Profile(
-        ProfileUiState(
-        "Kaiki Alvarenga de Souza",
+        uiState = ProfileUiState(
+            "Kaiki Alvarenga de Souza",
             "Kaiki098",
             "https://avatars.githubusercontent.com/u/127666620?v=4",
             "Cientista da Computação 2/8"
@@ -116,10 +163,30 @@ fun ProfilePreview() {
     )
 }
 
-data class ProfileUiState(
-    val name: String,
-    val user: String,
-    val image: String?,
-    val bio: String
-)
+@Preview(showBackground = true)
+@Composable
+fun ProfileWithRepositoriesPreview() {
+    Profile(
+        uiState = ProfileUiState(
+            user = "Kaiki098",
+            image = "https://avatars.githubusercontent.com/u/127666620?v=4",
+            name = "Kaiki Alvarenga de Souza",
+            bio = "Cientista da Computação 2/8",
+            repositories = listOf(
+                GitHubRepository(
+                    name = "github-compose"
+                ),
+                GitHubRepository(
+                    name = "ceep-compose",
+                    description = "Sample project to practice the Jetpack Compose Apps"
+                ),
+                GitHubRepository(
+                    name = "orgs-jetpack-compose",
+                    description = "Projeto de simulação do e-commerce de produtos naturais com a finalidade de treinar o Jetpack Compose"
+                )
+            )
+        )
+    )
+}
+
 
