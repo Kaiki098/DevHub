@@ -1,6 +1,6 @@
 package br.com.kaiki.devhub.network.model
 
-import br.com.kaiki.devhub.ui.screen.ProfileUiState
+import br.com.kaiki.devhub.ui.ProfileUiState
 import com.google.gson.annotations.SerializedName
 
 data class GitHubProfileWeb(

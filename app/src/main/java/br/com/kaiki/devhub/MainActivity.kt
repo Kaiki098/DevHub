@@ -3,17 +3,19 @@ package br.com.kaiki.devhub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import br.com.kaiki.devhub.ui.screen.ProfileScreen
+import br.com.kaiki.devhub.ui.MainViewModel
 import br.com.kaiki.devhub.ui.theme.DevHubTheme
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel: MainViewModel by viewModels()
 
         setContent {
             DevHubTheme {
@@ -21,9 +23,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ProfileScreen("Kaiki098")
+                    DevHubApp(viewModel)
                 }
             }
         }
     }
 }
+
+

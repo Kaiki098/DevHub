@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,29 +27,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kaiki.devhub.R
 import br.com.kaiki.devhub.model.GitHubRepository
-import br.com.kaiki.devhub.network.GitHubWebClient
+import br.com.kaiki.devhub.ui.MainViewModel
+import br.com.kaiki.devhub.ui.ProfileUiState
 import br.com.kaiki.devhub.ui.components.RepositoryItem
 import coil.compose.AsyncImage
 
 
 @Composable
 fun ProfileScreen(
-    user: String,
-    webClient: GitHubWebClient = GitHubWebClient()
+    viewModel: MainViewModel
 ) {
-    val uiState = webClient.uiState
-    LaunchedEffect(null) {
-        webClient.findProfileBy(user)
-    }
-    Profile(uiState)
+    val uiState = viewModel.uiState.collectAsState().value
 
-//    val userFounded by repository
-//        .findProfileBy(user = user)
-//        .collectAsState(initial = null)
-//
-//    userFounded?.let { userProfile ->
-//        Profile(userProfile.toProfileUiState())
-//    }
+    Profile(uiState = uiState)
 }
 
 @Composable
@@ -140,14 +130,6 @@ fun ProfileHeader(state: ProfileUiState) {
     }
 
 }
-
-data class ProfileUiState(
-    val name: String = "",
-    val user: String = "",
-    val image: String? = "",
-    val bio: String = "",
-    val repositories: List<GitHubRepository> = emptyList()
-)
 
 
 @Preview(showBackground = true)
