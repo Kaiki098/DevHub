@@ -4,10 +4,10 @@ import br.com.kaiki.devhub.model.GitHubRepository
 
 data class GitHubRepositoryWeb (
     val name: String,
-    val description: String
+    val description: String?
 )
 
 fun GitHubRepositoryWeb.toGitHubRepository() = GitHubRepository (
     name = name,
-    description = description
+    description = description ?: ""
 )

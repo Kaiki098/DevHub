@@ -47,6 +47,8 @@ fun ProfileScreen(
 
     if (!uiState.error){
         Profile(uiState = uiState)
+    } else {
+        Text("Error fetching data")
     }
 
 }
