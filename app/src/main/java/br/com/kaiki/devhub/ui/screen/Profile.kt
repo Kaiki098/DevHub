@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,11 +36,19 @@ import coil.compose.AsyncImage
 
 @Composable
 fun ProfileScreen(
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    user: String
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
-    Profile(uiState = uiState)
+    LaunchedEffect(user) {
+        viewModel.fetchProfileData(user)
+    }
+
+    if (!uiState.error){
+        Profile(uiState = uiState)
+    }
+
 }
 
 @Composable

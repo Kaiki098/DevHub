@@ -8,9 +8,6 @@ import br.com.kaiki.devhub.ui.screen.ProfileScreen
 @Composable
 fun DevHubApp(viewModel: MainViewModel) {
     val user = "Kaiki098"
-    LaunchedEffect(user) {
-        viewModel.fetchProfileData(user)
-    }
 
-    ProfileScreen(viewModel = viewModel)
+    ProfileScreen(viewModel = viewModel, user)
 }
