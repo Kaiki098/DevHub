@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import br.com.kaiki.devhub.ui.MainViewModel
 import br.com.kaiki.devhub.ui.theme.DevHubTheme
 
@@ -15,6 +16,8 @@ import br.com.kaiki.devhub.ui.theme.DevHubTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+
         val viewModel: MainViewModel by viewModels()
 
         setContent {
