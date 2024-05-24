@@ -1,7 +1,6 @@
 package br.com.kaiki.devhub.ui
 
 import android.util.Log
-import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.kaiki.devhub.model.GitHubRepository
@@ -10,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.lang.Error
 
 data class ProfileUiState(
     val name: String = "",
@@ -18,7 +16,7 @@ data class ProfileUiState(
     val image: String = "",
     val bio: String = "",
     val repositories: List<GitHubRepository> = emptyList(),
-    val error: Boolean = false
+    val isDataFetched: Boolean = false
 )
 
 class MainViewModel(
@@ -34,9 +32,13 @@ class MainViewModel(
                 _uiState.value = profile
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error fetching profile data", e)
-                _uiState.value = ProfileUiState(error = true)
             }
         }
+    }
+
+
+    fun resetUiState() {
+        _uiState.value = ProfileUiState()
     }
 
 }

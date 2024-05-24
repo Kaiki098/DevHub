@@ -13,7 +13,7 @@ class GitHubWebRepository(
         try {
             val profile = service.getUser(user).toProfileUiState()
             val repositories = service.getRepos(user).map { it.toGitHubRepository() }
-            return profile.copy(repositories = repositories)
+            return profile.copy(repositories = repositories, isDataFetched = true)
         } catch (e: Exception) {
             Log.e("GitHubWebRepository", "findProfileBy: Failed to search for user", e)
             throw e

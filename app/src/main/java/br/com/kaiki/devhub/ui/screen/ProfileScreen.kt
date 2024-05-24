@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,19 +37,10 @@ import coil.compose.AsyncImage
 @Composable
 fun ProfileScreen(
     viewModel: MainViewModel,
-    user: String
+    navigateToUserInput: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
-
-    LaunchedEffect(user) {
-        viewModel.fetchProfileData(user)
-    }
-
-    if (!uiState.error){
-        Profile(uiState = uiState)
-    } else {
-        Text("Error fetching data")
-    }
+    Profile(uiState = uiState)
 
 }
 
@@ -61,10 +52,20 @@ fun Profile(uiState: ProfileUiState) {
         }
         item { 
             if (uiState.repositories.isNotEmpty()) {
-                Text(
-                    text = "Repositórios", Modifier.padding(8.dp),
-                    fontSize = 24.sp
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color(0xFF0B004F)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Repositórios", Modifier.padding(8.dp),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White,
+                        lineHeight = 32.sp
+                    )
+                }
             }
         }
         items (uiState.repositories) {
@@ -99,6 +100,7 @@ fun ProfileHeader(state: ProfileUiState) {
                 )
                 .height(boxHeight)
         ) {
+            //AsyncImagePainter.State.Loading
             AsyncImage(
                 model = state.image,
                 contentDescription = "Profile picture",
@@ -136,6 +138,7 @@ fun ProfileHeader(state: ProfileUiState) {
                     bottom = 8.dp,
                     end = 8.dp
                 )
+                .heightIn(min = 100.dp)
         )
 
     }

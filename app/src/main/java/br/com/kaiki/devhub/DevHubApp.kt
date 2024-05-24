@@ -1,13 +1,35 @@
 package br.com.kaiki.devhub
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import br.com.kaiki.devhub.ui.MainViewModel
 import br.com.kaiki.devhub.ui.screen.ProfileScreen
+import br.com.kaiki.devhub.ui.screen.UserInputScreen
 
 @Composable
-fun DevHubApp(viewModel: MainViewModel) {
-    val user = "Kaiki098"
+fun DevHubApp(
+    navController: NavHostController,
+    viewModel: MainViewModel
+) {
 
-    ProfileScreen(viewModel = viewModel, user)
+    NavHost(navController = navController, startDestination = "userinputscreen") {
+        composable(route = "userinputscreen") {
+            UserInputScreen(
+                viewModel = viewModel,
+                navigateToProfile = {
+                    navController.navigate("profilescreen")
+                }
+            )
+
+        }
+        composable(route = "profilescreen"){
+            ProfileScreen(viewModel = viewModel, navigateToUserInput = {
+                viewModel.resetUiState()
+                navController.popBackStack()
+            })
+        }
+    }
+
 }
