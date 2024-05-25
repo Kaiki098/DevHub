@@ -26,8 +26,7 @@ fun DevHubApp(
         }
         composable(route = "profilescreen"){
             ProfileScreen(viewModel = viewModel, navigateToUserInput = {
-                viewModel.resetUiState()
-                navController.popBackStack()
+                navController.navigate("userinputscreen")
             })
         }
     }

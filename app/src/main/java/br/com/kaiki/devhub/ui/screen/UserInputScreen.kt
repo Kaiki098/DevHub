@@ -1,5 +1,6 @@
 package br.com.kaiki.devhub.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -53,6 +54,7 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
 
     val uiState by viewModel.uiState.collectAsState()
 
+    Log.d("ResetUi", "Input Screen")
     if (uiState.isDataFetched) {
         navigateToProfile()
     }

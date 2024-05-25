@@ -32,6 +32,7 @@ class MainViewModel(
                 _uiState.value = profile
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error fetching profile data", e)
+                //Fazer mais algo TODO
             }
         }
     }
@@ -39,6 +40,7 @@ class MainViewModel(
 
     fun resetUiState() {
         _uiState.value = ProfileUiState()
+        Log.d("ResetUi", "Ui resetada")
     }
 
 }

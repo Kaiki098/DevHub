@@ -1,5 +1,6 @@
 package br.com.kaiki.devhub.ui.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,8 +42,15 @@ fun ProfileScreen(
     navigateToUserInput: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
-    Profile(uiState = uiState)
 
+    BackHandler {
+        navigateToUserInput()
+        viewModel.resetUiState()
+    }
+
+    if (uiState.isDataFetched) {
+        Profile(uiState = uiState)
+    }
 }
 
 @Composable
@@ -138,7 +147,8 @@ fun ProfileHeader(state: ProfileUiState) {
                     bottom = 8.dp,
                     end = 8.dp
                 )
-                .heightIn(min = 100.dp)
+                .heightIn(min = 100.dp),
+            textAlign = TextAlign.Center
         )
 
     }
