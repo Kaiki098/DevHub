@@ -2,7 +2,13 @@
 
 ## Introdução
 
-Este projeto foi realizado no desafio [#7DaysOfCode](https://7daysofcode.io/matricula/android), que consistiu em criar uma aplicação mobile que consome uma API, puxando os dados públicos do GitHub de qualquer usuário. O desafio era dividido em 7 dias, com cada dia dedicado a uma parte específica do projeto.
+Este projeto foi realizado no desafio [#7DaysOfCode](https://7daysofcode.io/matricula/android), que consistiu em criar uma aplicação mobile que consome uma API, puxando os dados públicos do GitHub de qualquer usuário. O desafio era dividido em 7 dias, com cada dia dedicado a uma parte específica do projeto. Foi levado o projeto mais a frente desenvolvendo mais funcionalidades e uma UI personalizada
+
+## Funcionalidades
+
+- Botão Visitar
+- Tema escuro e claro
+- Visualização e busca de dados de qualquer usuário do GitHub
 
 ## Tecnologias Utilizadas
 - Jetpack Compose
