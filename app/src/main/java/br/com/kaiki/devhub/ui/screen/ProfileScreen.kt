@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -204,15 +202,18 @@ fun ProfileWithRepositoriesPreview() {
             bio = "Cientista da Computação 2/8",
             repositories = listOf(
                 GitHubRepository(
-                    name = "github-compose"
+                    name = "github-compose",
+                    "",""
                 ),
                 GitHubRepository(
                     name = "ceep-compose",
-                    description = "Sample project to practice the Jetpack Compose Apps"
+                    description = "Sample project to practice the Jetpack Compose Apps",
+                    ""
                 ),
                 GitHubRepository(
                     name = "orgs-jetpack-compose",
-                    description = "Projeto de simulação do e-commerce de produtos naturais com a finalidade de treinar o Jetpack Compose"
+                    description = "Projeto de simulação do e-commerce de produtos naturais com a finalidade de treinar o Jetpack Compose",
+                    ""
                 )
             )
         )

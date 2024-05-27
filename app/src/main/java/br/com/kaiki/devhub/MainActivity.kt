@@ -1,6 +1,9 @@
 package br.com.kaiki.devhub
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources.Theme
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,4 +39,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun openWebPage(context: Context, url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(intent)
+}
 
