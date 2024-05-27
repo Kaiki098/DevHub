@@ -2,8 +2,8 @@ package br.com.kaiki.devhub.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kaiki.devhub.R
 import br.com.kaiki.devhub.ui.MainViewModel
+import br.com.kaiki.devhub.ui.theme.DevHubTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,22 +61,19 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
         navigateToProfile()
     }
 
-    Box (
-        contentAlignment = Alignment.TopCenter,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.devhub),
-            contentDescription = "DevHub logo",
-            Modifier.padding(top = 32.dp)
-        )
-    }
-
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxSize()
     ) {
+
+        Image(
+            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.dehublittlered else R.drawable.devhublittle),
+            contentDescription = "DevHub logo",
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 120.dp)
+        )
 
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,18 +82,20 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
             Text(
                 text = "Search for any GitHub account",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = DevHubTheme.colorScheme.onBackground
             )
             Text(
                 text = "Enter a user name to see the information",
                 fontSize = 14.sp,
                 modifier = Modifier
-                    .padding(top = 4.dp)
+                    .padding(top = 4.dp),
+                color = DevHubTheme.colorScheme.onBackground
             )
         }
 
         if (isLoading) {
-            CircularProgressIndicator(Modifier.height(50.dp))
+            CircularProgressIndicator(Modifier.height(50.dp), color = DevHubTheme.colorScheme.onBackground)
         } else {
             Spacer(modifier = Modifier.height(50.dp))
         }
@@ -114,7 +115,10 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
                     .fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = Color.LightGray,
-                    unfocusedLabelColor = Color.Gray
+                    unfocusedLabelColor = Color.Gray,
+                    focusedBorderColor = DevHubTheme.colorScheme.primary,
+                    focusedLabelColor = DevHubTheme.colorScheme.primary,
+                    focusedTextColor = DevHubTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp),
                 isError = textFieldError,
@@ -122,8 +126,7 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
                     if (textFieldError) {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Please enter a valid user name",
-                            color = MaterialTheme.colorScheme.error
+                            text = "Please enter a valid user name"
                         )
                     }
                 }
@@ -137,18 +140,21 @@ fun UserInputScreen(viewModel: MainViewModel, navigateToProfile: () -> Unit) {
                         textFieldError = true
                     }
                 },
-                colors = ButtonDefaults
-                    .buttonColors(Color(0xFF0B004F)),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp)
                     .height(TextFieldDefaults.MinHeight),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = DevHubTheme.colorScheme.primary
+                )
             ) {
-                Text(text = "Search user", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                Text(text = "Search user", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = DevHubTheme.colorScheme.onPrimary)
             }
         }
+
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package br.com.kaiki.devhub
 
+import android.content.res.Resources.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
             DevHubTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = DevHubTheme.colorScheme.background
                 ) {
                     DevHubApp(navController = navController, viewModel = viewModel)
                 }

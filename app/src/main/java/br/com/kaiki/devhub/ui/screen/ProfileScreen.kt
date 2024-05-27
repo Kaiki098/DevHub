@@ -14,18 +14,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kaiki.devhub.R
@@ -33,6 +41,7 @@ import br.com.kaiki.devhub.model.GitHubRepository
 import br.com.kaiki.devhub.ui.MainViewModel
 import br.com.kaiki.devhub.ui.ProfileUiState
 import br.com.kaiki.devhub.ui.components.RepositoryItem
+import br.com.kaiki.devhub.ui.theme.DevHubTheme
 import coil.compose.AsyncImage
 
 
@@ -56,29 +65,29 @@ fun ProfileScreen(
 @Composable
 fun Profile(uiState: ProfileUiState) {
     LazyColumn {
-        item { 
+        item {
             ProfileHeader(state = uiState)
         }
-        item { 
+        item {
             if (uiState.repositories.isNotEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Color(0xFF0B004F)),
+                        .background(color = DevHubTheme.colorScheme.primary),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "Repositórios", Modifier.padding(8.dp),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color.White,
-                        lineHeight = 32.sp
+                        color = DevHubTheme.colorScheme.onPrimary,
+                        lineHeight = 32.sp,
                     )
                 }
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
-        items (uiState.repositories) {
-            repo ->
+        items(uiState.repositories) { repo ->
             RepositoryItem(repo = repo)
         }
     }
@@ -86,7 +95,7 @@ fun Profile(uiState: ProfileUiState) {
 
 @Composable
 fun ProfileHeader(state: ProfileUiState) {
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val boxHeight = remember {
@@ -97,11 +106,21 @@ fun ProfileHeader(state: ProfileUiState) {
             boxHeight
         }
 
+        var boxSize by remember {
+            mutableStateOf(IntSize.Zero)
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    boxSize = coordinates.size
+                }
                 .background(
-                    color = Color.DarkGray,
+                    brush = Brush.sweepGradient(
+                        colors = DevHubTheme.colorScheme.gradientColors,
+                        center = Offset(x = boxSize.width / 2f, y = boxSize.height.toFloat())
+                    ),
                     shape = RoundedCornerShape(
                         bottomStart = 20.dp,
                         bottomEnd = 20.dp
@@ -125,18 +144,20 @@ fun ProfileHeader(state: ProfileUiState) {
         Column(
             modifier = Modifier
                 .padding(8.dp)
-                .fillMaxWidth()
-            ,
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = state.name,
-                fontSize = 32.sp
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = DevHubTheme.colorScheme.onBackground
             )
             Text(
                 text = state.user,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = DevHubTheme.colorScheme.onBackground
             )
         }
         Text(
@@ -148,7 +169,10 @@ fun ProfileHeader(state: ProfileUiState) {
                     end = 8.dp
                 )
                 .heightIn(min = 100.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            color = DevHubTheme.colorScheme.onBackground
         )
 
     }
@@ -156,7 +180,7 @@ fun ProfileHeader(state: ProfileUiState) {
 }
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun ProfilePreview() {
     Profile(
