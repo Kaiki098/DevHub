@@ -1,7 +1,13 @@
 <div align="center">
   <img src="https://github.com/Kaiki098/DevHub/assets/127666620/aa71fdb6-37a0-40a0-95ba-501f2d2221ea"/>
 </div>
+<div align="center">
+  <img height="45em" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/androidstudio/androidstudio-original.svg" />        
+  <img height="45em" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"/>
+  <img height="45em" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jetpackcompose/jetpackcompose-original.svg" />
+</div>
 
+ 
 ## 📝 Introdução
 
 Este projeto foi realizado no desafio [#7DaysOfCode](https://7daysofcode.io/matricula/android), que consistiu em criar uma aplicação mobile que consome uma API, puxando os dados públicos do GitHub de qualquer usuário. O desafio era dividido em 7 dias, com cada dia dedicado a uma parte específica do projeto. Foi levado o projeto mais a frente desenvolvendo mais funcionalidades e uma UI personalizada
